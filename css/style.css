@@ -71,6 +71,8 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    position: relative; /* Ensure z-index works */
+    z-index: 10; /* Ensure content is above overlay */
 }
 
 /* Previous (Exiting) State */
@@ -122,6 +124,16 @@ body {
 .pagination-dot.active .dot-label {
     opacity: 1;
     right: 30px;
+}
+
+@media (max-width: 768px) {
+    .dot-label {
+        display: none !important; /* Hide labels on mobile to prevent cutoff */
+    }
+    
+    .side-nav {
+        right: 15px; /* Move closer to edge on mobile */
+    }
 }
 
 .pagination-dot.active {
@@ -213,6 +225,26 @@ h1 {
     background: linear-gradient(90deg, #fff, var(--primary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 768px) {
+    #home h1 {
+        font-size: 3.5rem; /* Smaller font for mobile */
+        letter-spacing: 5px;
+    }
+
+    #home p {
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+
+    h1 {
+        font-size: 2.5rem; /* Smaller section titles */
+    }
+    
+    .content-box {
+        padding: 30px 20px; /* Reduced padding on mobile */
+    }
 }
 
 .sub-title {
