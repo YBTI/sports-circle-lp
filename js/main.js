@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sections[0].classList.add('is-active');
 
     function goToSection(index) {
+        if (window.innerWidth <= 768) return; // Disable on mobile
         if (index === currentIndex || isTransitioning) return;
         if (index < 0 || index >= sections.length) return;
 
@@ -84,7 +85,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Nav Dot Click
     navDots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-            goToSection(index);
+            if (window.innerWidth <= 768) {
+                // Smooth scroll to section on mobile
+                const sectionId = dot.dataset.section;
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            } else {
+                goToSection(index);
+            }
+            
             if (hamburger && hamburger.classList.contains('is-active')) {
                 hamburger.classList.remove('is-active');
                 sideNav.classList.remove('is-open');
