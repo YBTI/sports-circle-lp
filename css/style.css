@@ -30,6 +30,13 @@
     .pc-only {
         display: none !important;
     }
+    .mobile-break {
+        display: block;
+    }
+}
+
+.mobile-break {
+    display: none;
 }
 
 * {
