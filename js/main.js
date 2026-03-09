@@ -116,14 +116,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const reportGrid = document.getElementById('report-grid');
         if (!reportGrid) return;
 
+        reportGrid.innerHTML = '<p style="grid-column: 1/-1;">記事を読み込み中...</p>';
+
         const rssUrl = 'https://note.com/camellia_soccer/rss';
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
         try {
             const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error('Network response 失敗');
+            
             const data = await response.json();
 
-            if (data.status === 'ok') {
+            if (data.status === 'ok' && data.items && data.items.length > 0) {
                 const items = data.items.slice(0, 3);
                 reportGrid.innerHTML = ''; // Clear loading state
 
@@ -133,19 +137,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.target = '_blank';
                     card.className = 'report-card';
 
-                    // Extract image from description or use placeholder
+                    // Extract image - improved
                     let thumbUrl = '';
-                    const imgMatch = item.description.match(/<img[^>]+src="([^">?]+)/);
-                    if (imgMatch) {
-                        thumbUrl = imgMatch[1];
+                    if (item.thumbnail) {
+                        thumbUrl = item.thumbnail;
                     } else if (item.enclosure && item.enclosure.link) {
                         thumbUrl = item.enclosure.link;
-                    } else if (item.thumbnail) {
-                        thumbUrl = item.thumbnail;
+                    } else if (item.description) {
+                        const imgMatch = item.description.match(/<img[^>]+src="([^">?]+)/);
+                        if (imgMatch) thumbUrl = imgMatch[1];
+                    }
+                    
+                    if (!thumbUrl) {
+                        // Fallback image
+                        thumbUrl = 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=400';
                     }
 
                     const pubDate = new Date(item.pubDate);
-                    const formattedDate = `${pubDate.getFullYear()}.${(pubDate.getMonth() + 1).toString().padStart(2, '0')}.${pubDate.getDate().toString().padStart(2, '0')}`;
+                    const formattedDate = !isNaN(pubDate.getTime()) 
+                        ? `${pubDate.getFullYear()}.${(pubDate.getMonth() + 1).toString().padStart(2, '0')}.${pubDate.getDate().toString().padStart(2, '0')}`
+                        : '';
 
                     card.innerHTML = `
                         <div class="report-thumb" style="background-image: url('${thumbUrl}')"></div>
@@ -156,10 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                     reportGrid.appendChild(card);
                 });
+            } else {
+                throw new Error('記事が見つかりませんでした');
             }
         } catch (error) {
             console.error('Error fetching Note articles:', error);
-            reportGrid.innerHTML = '<p>記事の読み込みに失敗しました。</p>';
+            reportGrid.innerHTML = `<p style="grid-column: 1/-1;">記事の取得に失敗しました。<br><a href="https://note.com/camellia_soccer" target="_blank" style="color: var(--primary-color); text-decoration: underline;">公式Noteで記事を読む</a></p>`;
         }
     }
 
