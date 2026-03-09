@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const prevIndex = currentIndex;
         currentIndex = index;
 
+        // Reset scroll position of content boxes when switching
+        const contentBox = sections[currentIndex].querySelector('.content-box');
+        if (contentBox) {
+            contentBox.scrollTop = 0;
+        }
+
         // Reset and set active for target
         sections[currentIndex].classList.remove('is-prev');
         sections[currentIndex].classList.add('is-active');
@@ -93,4 +99,58 @@ document.addEventListener('DOMContentLoaded', () => {
             sideNav.classList.toggle('is-open');
         });
     }
+
+    // Dynamic Note Article Fetching
+    async function fetchNoteArticles() {
+        const reportGrid = document.getElementById('report-grid');
+        if (!reportGrid) return;
+
+        const rssUrl = 'https://note.com/camellia_soccer/rss';
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            if (data.status === 'ok') {
+                const items = data.items.slice(0, 3);
+                reportGrid.innerHTML = ''; // Clear loading state
+
+                items.forEach(item => {
+                    const card = document.createElement('a');
+                    card.href = item.link;
+                    card.target = '_blank';
+                    card.className = 'report-card';
+
+                    // Extract image from description or use placeholder
+                    let thumbUrl = '';
+                    const imgMatch = item.description.match(/<img[^>]+src="([^">?]+)/);
+                    if (imgMatch) {
+                        thumbUrl = imgMatch[1];
+                    } else if (item.enclosure && item.enclosure.link) {
+                        thumbUrl = item.enclosure.link;
+                    } else if (item.thumbnail) {
+                        thumbUrl = item.thumbnail;
+                    }
+
+                    const pubDate = new Date(item.pubDate);
+                    const formattedDate = `${pubDate.getFullYear()}.${(pubDate.getMonth() + 1).toString().padStart(2, '0')}.${pubDate.getDate().toString().padStart(2, '0')}`;
+
+                    card.innerHTML = `
+                        <div class="report-thumb" style="background-image: url('${thumbUrl}')"></div>
+                        <div class="report-info">
+                            <span class="date">${formattedDate}</span>
+                            <h3>${item.title}</h3>
+                        </div>
+                    `;
+                    reportGrid.appendChild(card);
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching Note articles:', error);
+            reportGrid.innerHTML = '<p>記事の読み込みに失敗しました。</p>';
+        }
+    }
+
+    fetchNoteArticles();
 });
