@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Sports Circle | 限界を超えろ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <meta name="description" content="情熱と絆を大切にするスポーツサークルの公式サイト。初心者から経験者まで、共に成長し楽しめる環境を提供します。">
+</head>
+<body>
+    <nav class="side-nav">
+        <div class="nav-dot active" data-section="home"><span>HOME</span></div>
+        <div class="nav-dot" data-section="concept"><span>CONCEPT</span></div>
+        <div class="nav-dot" data-section="activity"><span>ACTIVITY</span></div>
+        <div class="nav-dot" data-section="schedule"><span>SCHEDULE</span></div>
+        <div class="nav-dot" data-section="info"><span>INFO</span></div>
+    </nav>
+
+    <main class="scroll-container">
+        <section id="home" class="snap-section">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1 class="fade-in">BEYOND THE LIMITS</h1>
+                <p class="fade-in delay-1">スポーツで繋がる、最高の仲間と時間</p>
+                <div class="scroll-down fade-in delay-2">SCROLL</div>
+            </div>
+        </section>
+
+        <section id="concept" class="snap-section">
+            <div class="container">
+                <div class="content-box reveal">
+                    <span class="sub-title">CONCEPT</span>
+                    <h2>私たちが大切にしていること</h2>
+                    <p>単なる競技の枠を超え、互いに高め合い、支え合える場所。年齢や性別を問わず、誰もが主役になれるサークルを目指しています。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="activity" class="snap-section">
+            <div class="container">
+                <div class="content-box reveal">
+                    <span class="sub-title">ACTIVITY REPORT</span>
+                    <h2>活動報告</h2>
+                    <div class="report-grid">
+                        <div class="report-item">WEEKLY PRACTICE</div>
+                        <div class="report-item">SUMMER CAMP 2025</div>
+                        <div class="report-item">FRIENDLY MATCH</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="schedule" class="snap-section">
+            <div class="container">
+                <div class="content-box reveal">
+                    <span class="sub-title">SCHEDULE</span>
+                    <h2>活動スケジュール</h2>
+                    <table class="schedule-table">
+                        <tr><th>DATE</th><th>EVENT</th><th>LOCATION</th></tr>
+                        <tr><td>03/10 (MON)</td><td>Soccer Match</td><td>Central Park</td></tr>
+                        <tr><td>03/15 (SAT)</td><td>Tennis Workshop</td><td>Arena A</td></tr>
+                        <tr><td>03/22 (SAT)</td><td>General Meeting</td><td>Club House</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="info" class="snap-section">
+            <div class="container">
+                <div class="content-box reveal">
+                    <span class="sub-title">GUIDE</span>
+                    <h2>参加案内</h2>
+                    <p>見学・体験入会随時募集中です。お気軽にお問い合わせください。</p>
+                    <a href="#" class="btn-primary">JOIN US NOW</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
