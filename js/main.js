@@ -111,8 +111,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // IntersectionObserver for active section (especially for mobile natural scroll)
+    const observerOptions = {
+        threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                updateNav(entry.target.id);
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
     // Dynamic Note Article Fetching
     async function fetchNoteArticles() {
+        if (window.innerWidth <= 768) return; // Skip on mobile
         const reportGrid = document.getElementById('report-grid');
         if (!reportGrid) return;
 

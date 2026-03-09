@@ -15,6 +15,23 @@
     --transition-base: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.mobile-only {
+    display: none !important;
+}
+
+.pc-only {
+    display: block !important;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block !important;
+    }
+    .pc-only {
+        display: none !important;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -537,6 +554,26 @@ h2 {
 .btn-primary:hover {
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 15px 40px rgba(74, 222, 128, 0.5);
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 12px 30px;
+    background: transparent;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50px;
+    margin-top: 20px;
+    transition: var(--transition-base);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-3px);
 }
 
 /* Calendar Section */
